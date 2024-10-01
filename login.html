@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('image 02.jpg') no-repeat center center fixed; /* Update the path here */
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: rgba(255, 182, 193, 0.9); /* Soft pink color to match the piggy bank */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+            width: 400px;
+            margin-left: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #D32F2F; /* Red color matching the pink theme */
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF69B4; /* Hot pink color */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #FF1493; /* Darker shade of pink on hover */
+        }
+
+        .forgot-password, .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .forgot-password a, .signup-link a {
+            color: #D32F2F; /* Red color for links to match the theme */
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover, .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="dashboard.html" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div class="forgot-password">
+            <a href="forgot-password.html">Forgot password?</a>
+        </div>
+        <div class="signup-link">
+            <a href="signup.html">Don't have an account? Sign up</a>
+        </div>
+    </div>
+</body>
+</html>
