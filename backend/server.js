@@ -4,15 +4,16 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 // Import Routes
-const authRoutes = require('./src/routes/auth'); // Ensure correct path
-const financeRoutes = require('./src/routes/Finance'); // Ensure correct path
+const authRoutes = require('./src/routes/auth'); // Auth routes
+const financeRoutes = require('./src/routes/Finance'); // Finance routes
+const userRoutes = require('./src/routes/user'); // User routes
 
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5500;
 
 // Middleware
-app.use(cors()); // Enable CORS
+app.use(cors()); // Enable CORS for cross-origin requests
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
 // MongoDB Connection
@@ -24,8 +25,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/personal-finance', {
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/api/auth', authRoutes); // Auth routes
-app.use('/api/finance', financeRoutes); // Finance routes
+app.use('/api/auth', authRoutes); // Register auth routes
+app.use('/api/finance', financeRoutes); // Register finance routes
+app.use('/api/user', userRoutes); // Register user routes
 
 // Root Endpoint
 app.get('/', (req, res) => {
