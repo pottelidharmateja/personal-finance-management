@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './Signup.css'; // Import Signup.css
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const Signup = () => {
       const response = await axios.post('http://localhost:5500/api/auth/signup', {
         email,
         password,
-        confirmPassword, // Make sure confirmPassword is passed
+        confirmPassword,
       });
 
       alert(response.data.message);
@@ -41,7 +42,7 @@ const Signup = () => {
     <div className="signup-container">
       <form onSubmit={handleSignup}>
         <h2>Signup</h2>
-        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show errors */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show error message */}
         <input
           type="email"
           placeholder="Enter Email"

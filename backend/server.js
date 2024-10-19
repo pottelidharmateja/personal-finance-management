@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -10,19 +11,20 @@ const userRoutes = require('./src/routes/user'); // User routes
 
 // Initialize Express App
 const app = express();
-const PORT = process.env.PORT || 5500; // Set port to 5500
+const PORT = process.env.PORT || 5500;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // Middleware
 app.use(cors()); // Enable CORS for cross-origin requests
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/personal-finance', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 // Routes
 app.use('/api/auth', authRoutes); // Register auth routes
