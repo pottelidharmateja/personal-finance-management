@@ -10,7 +10,7 @@ const userRoutes = require('./src/routes/user'); // User routes
 
 // Initialize Express App
 const app = express();
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5500; // Set port to 5500
 
 // Middleware
 app.use(cors()); // Enable CORS for cross-origin requests
