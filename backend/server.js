@@ -11,18 +11,17 @@ const userRoutes = require('./src/routes/user'); // User routes
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5500;
-const MONGODB_URI = process.env.MONGODB_URI;
 
 // Middleware
 app.use(cors()); // Enable CORS for cross-origin requests
 app.use(express.json()); // Parse incoming JSON requests
 
 // MongoDB Connection
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit the process if connection fails
+    process.exit(1);
   });
 
 // Register Routes
@@ -37,7 +36,7 @@ app.get('/', (req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Global Error:', err);
+  console.error('Global error:', err);
   res.status(500).json({ error: 'An unexpected error occurred.' });
 });
 

@@ -10,23 +10,22 @@ const Signup = ({ handleTransition }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // Updated handleSignup function
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(''); // Clear any previous error message
-
+    setErrorMessage('');
+  
     // Validate passwords match
     if (password !== confirmPassword) {
       setLoading(false);
       setErrorMessage('Passwords do not match.');
       return;
     }
-
+  
     try {
       // Send signup request to the backend
       await axios.post('http://localhost:5500/api/auth/signup', { email, password });
-
+  
       // Display success message and redirect to login
       alert('Signup successful! Please log in.');
       navigate('/login');
@@ -37,7 +36,7 @@ const Signup = ({ handleTransition }) => {
       setErrorMessage(message);
     }
   };
-
+  
   return (
     <div
       style={{

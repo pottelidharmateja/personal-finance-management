@@ -1,20 +1,19 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); // Ensure correct import path
+const User = require('../models/user'); // Import User model
 const router = express.Router();
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-  const { email, password, confirmPassword } = req.body;
+  const { email, password } = req.body; // Destructure email and password
+
+  // Debug: Log the incoming request body
+  console.log('Received signup request:', req.body);
 
   // Validate input
-  if (!email || !password || !confirmPassword) {
+  if (!email || !password) {
     return res.status(400).json({ error: 'Please fill in all the required fields.' });
-  }
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: 'Passwords do not match.' });
   }
 
   try {
@@ -33,14 +32,17 @@ router.post('/signup', async (req, res) => {
 
     return res.status(201).json({ message: 'User created successfully!' });
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Signup error:', error.message);
     return res.status(500).json({ error: 'Signup failed. Please try again.' });
   }
 });
 
 // Login Route
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body; // Destructure email and password
+
+  // Debug: Log the incoming request body
+  console.log('Received login request:', req.body);
 
   // Validate input
   if (!email || !password) {
@@ -67,10 +69,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({ message: 'Login successful', token });
+    // Respond with the token
+    return res.json({ message: 'Login successful', token });
   } catch (error) {
-    console.error('Login error:', error); // Log the error for debugging
-    res.status(500).json({ error: 'Login failed. Please try again later.' });
+    console.error('Login error:', error.message);
+    return res.status(500).json({ error: 'Login failed. Please try again later.' });
   }
 });
 
