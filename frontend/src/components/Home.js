@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Signup from './Signup';
 import Login from './Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css';
-import { CSSTransition, SwitchTransition } from 'react-transition-group'; // For transitions
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const Home = () => {
-  const [currentSlide, setCurrentSlide] = useState('home'); // Tracks the current slide
+  const [currentSlide, setCurrentSlide] = useState('home');
+  const navigate = useNavigate();
 
-  // Styling for different backgrounds
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log('Token found:', token); // Log the token
+    if (token) {
+      console.log('Redirecting to dashboard...'); // Log the redirect action
+      navigate('/dashboard'); // Redirect to dashboard if already logged in
+    }
+  }, [navigate]);
+
+  // Define background styles for different slides
   const backgroundStyles = {
     home: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${process.env.PUBLIC_URL}/images/v991-n-26.jpg)`,
-    signup: 'black', // Black background for signup slide
-    login: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${process.env.PUBLIC_URL}/images/login-bg.jpg)`, // Replace with login background
+    signup: 'black',
+    login: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${process.env.PUBLIC_URL}/images/login-bg.jpg)`,
   };
 
+  // Inline style for the Home component
   const homeStyle = {
-    position: 'relative',
     backgroundImage: backgroundStyles[currentSlide],
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -31,7 +41,7 @@ const Home = () => {
     transition: 'background 0.5s ease-in-out',
   };
 
-  // Transition handler
+  // Handle transitions between slides
   const handleTransition = (slide) => {
     setCurrentSlide(slide);
   };
@@ -68,29 +78,9 @@ const Home = () => {
               </div>
             </div>
           ) : currentSlide === 'signup' ? (
-            <div style={{ textAlign: 'center', color: 'white' }}>
-              <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '20px' }}>Signup Page</h2>
-              <Signup /> {/* Display the Signup component */}
-              <button
-                className="btn btn-light"
-                onClick={() => handleTransition('home')}
-                style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '20px' }}
-              >
-                Back
-              </button>
-            </div>
+            <Signup handleTransition={handleTransition} />
           ) : (
-            <div style={{ textAlign: 'center', color: 'white' }}>
-              <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '20px' }}>Login Page</h2>
-              <Login /> {/* Display the Login component */}
-              <button
-                className="btn btn-light"
-                onClick={() => handleTransition('home')}
-                style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '20px' }}
-              >
-                Back
-              </button>
-            </div>
+            <Login handleTransition={handleTransition} />
           )}
         </CSSTransition>
       </SwitchTransition>

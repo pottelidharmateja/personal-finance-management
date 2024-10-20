@@ -1,71 +1,63 @@
-/* Signup Container */
+/* Container for both login and signup */
 .signup-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh; /* Full vertical alignment */
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.8); /* Darker background for contrast */
-  border-radius: 12px;
-  max-width: 400px;
-  margin: 0 auto;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
 }
-
-/* Form Styling for Signup */
+/* Form Styling */
 form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
+  max-width: 400px;
+  padding: 20px;
 }
 
-h2 {
-  font-size: 2rem;
-  font-weight: bold;
+/* Logo Styling */
+.auth-logo {
+  width: 120px;
+  height: auto;
   margin-bottom: 20px;
-  text-align: center;
-  color: #f0f0f0;
-  display: none; /* Hide "Signup Page" heading */
 }
 
 /* Input Fields */
 input {
-  padding: 12px;
+  padding: 15px;
   margin: 10px 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   border-radius: 5px;
   border: 1px solid #bbb;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque white */
+  max-width: 400px;
+  background-color: rgba(255, 255, 255, 0.85);
   color: #333;
 }
 
-input::placeholder {
-  color: #777;
-}
-
-input:focus {
-  border-color: #3498db; /* Blue border on focus */
-  outline: none;
-}
-
-/* Signup Button */
+/* Button Styling */
 button {
-  padding: 12px;
-  margin-top: 20px;
+  padding: 15px;
+  margin-top: 10px;
   font-size: 1.2rem;
   font-weight: bold;
   color: white;
-  background-color: #e67e22; /* Orange button */
+  background-color: #e67e22;
   border: none;
   border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #d35400; /* Darker orange on hover */
+  background-color: #d35400;
 }
 
 button:disabled {
@@ -73,9 +65,9 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Error Message Styling for Signup */
+/* Error Message Styling */
 .error-message {
-  color: #e74c3c; /* Red for error message */
+  color: #e74c3c;
   font-size: 0.9rem;
   margin-bottom: 10px;
   text-align: center;
