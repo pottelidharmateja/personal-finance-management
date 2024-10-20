@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/user'); // Ensure correct import path
 const router = express.Router();
 
 // Signup Route
@@ -13,7 +13,6 @@ router.post('/signup', async (req, res) => {
     return res.status(400).json({ error: 'Please fill in all the required fields.' });
   }
 
-  // Check if passwords match
   if (password !== confirmPassword) {
     return res.status(400).json({ error: 'Passwords do not match.' });
   }
@@ -70,7 +69,7 @@ router.post('/login', async (req, res) => {
 
     res.json({ message: 'Login successful', token });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error); // Log the error for debugging
     res.status(500).json({ error: 'Login failed. Please try again later.' });
   }
 });
