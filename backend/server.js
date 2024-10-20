@@ -2,7 +2,6 @@ require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 
 // Import Routes
 const authRoutes = require('./src/routes/auth'); // Auth routes
@@ -16,17 +15,17 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 // Middleware
 app.use(cors()); // Enable CORS for cross-origin requests
-app.use(bodyParser.json()); // Parse incoming JSON requests
+app.use(express.json()); // Parse incoming JSON requests
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1);
+    process.exit(1); // Exit the process if connection fails
   });
 
-// Routes
+// Register Routes
 app.use('/api/auth', authRoutes); // Register auth routes
 app.use('/api/finance', financeRoutes); // Register finance routes
 app.use('/api/user', userRoutes); // Register user routes
@@ -34,6 +33,12 @@ app.use('/api/user', userRoutes); // Register user routes
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Welcome to the Personal Finance Management API');
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error('Global Error:', err);
+  res.status(500).json({ error: 'An unexpected error occurred.' });
 });
 
 // Start the Server
