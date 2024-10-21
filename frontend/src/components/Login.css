@@ -1,0 +1,74 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Logo Styling */
+.auth-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+input {
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #333;
+}
+
+/* Button Styling */
+button {
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  background-color: #e67e22;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #d35400;
+}
+
+button:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
