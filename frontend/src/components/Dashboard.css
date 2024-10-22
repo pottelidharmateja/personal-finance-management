@@ -81,29 +81,38 @@ body {
 }
 
 /* Form Styles */
-form {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+.input-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
-input[type="number"], input[type="text"] {
+.input-form input {
   background-color: #1b2e4b;
   color: white;
   border: 1px solid #34495e;
   padding: 10px;
   border-radius: 5px;
   width: 100%;
+  max-width: 400px;
   margin-bottom: 10px;
 }
 
+.save-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
 button {
-  background-color: #f39c12;
-  border: none;
   padding: 10px 20px;
+  background-color: #f39c12;
   color: white;
-  cursor: pointer;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 

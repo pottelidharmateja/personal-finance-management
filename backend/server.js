@@ -1,33 +1,45 @@
-require('dotenv').config(); // Load environment variables from .env file
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import authRoutes from './src/routes/auth.js';
+import financeRoutes from './src/routes/Finance.js';
+import userRoutes from './src/routes/user.js';
+import userInputRoutes from './src/routes/userinput.js';
 
-// Import Routes
-const authRoutes = require('./src/routes/auth'); // Auth routes
-const financeRoutes = require('./src/routes/Finance'); // Finance routes
-const userRoutes = require('./src/routes/user'); // User routes
+// Load environment variables from .env file
+dotenv.config();
 
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5500;
 
-// Middleware
-app.use(cors()); // Enable CORS for cross-origin requests
-app.use(express.json()); // Parse incoming JSON requests
+// CORS Configuration
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Middleware to parse incoming JSON requests
+app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch((err) => {
+  .catch(err => {
     console.error('MongoDB connection error:', err);
     process.exit(1);
   });
 
-// Register Routes
-app.use('/api/auth', authRoutes); // Register auth routes
-app.use('/api/finance', financeRoutes); // Register finance routes
-app.use('/api/user', userRoutes); // Register user routes
+// Register routes
+app.use('/api/auth', authRoutes);
+app.use('/api/finance', financeRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/user-inputs', userInputRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {
@@ -40,5 +52,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'An unexpected error occurred.' });
 });
 
-// Start the Server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Start the Server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
+
+export default app;

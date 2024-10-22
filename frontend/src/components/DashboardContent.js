@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
-import { jwtDecode } from 'jwt-decode'; // Correct import for named export
+import { jwtDecode } from 'jwt-decode';
 
 const DashboardContent = () => {
   const [totalBalance, setTotalBalance] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [financeRecords, setFinanceRecords] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
+  const [errorMessage, setErrorMessage] = useState(''); // Error message state
   const expenseChartRef = useRef(null);
   const incomeSavingsChartRef = useRef(null);
 
@@ -47,13 +49,13 @@ const DashboardContent = () => {
 
     // Check if the token exists
     if (!token) {
-      alert('User is not authenticated. Please log in.');
+      setErrorMessage('User is not authenticated. Please log in.');
       return;
     }
 
     // Decode token to get user ID
     const decodedToken = jwtDecode(token);
-    const userId = decodedToken.userId; // Ensure 'userId' is present in the JWT payload
+    const userId = decodedToken.userId;
 
     // Send data to backend
     try {
@@ -75,8 +77,8 @@ const DashboardContent = () => {
         throw new Error('Failed to save data');
       }
     } catch (error) {
-      console.error('Error saving data:', error);
-      alert('Failed to save data.');
+      console.error('Error saving data:', error.message);
+      setErrorMessage('Failed to save data. Please try again.');
     }
 
     // Update charts
@@ -90,7 +92,8 @@ const DashboardContent = () => {
 
     // Check if the token exists
     if (!token) {
-      alert('User is not authenticated. Please log in.');
+      setErrorMessage('User is not authenticated. Please log in.');
+      setLoading(false);
       return;
     }
 
@@ -108,14 +111,17 @@ const DashboardContent = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.length > 0) {
         setFinanceRecords(response.data); // Update finance records from backend
+        setErrorMessage(''); // Clear error message
       } else {
-        alert('No records found.');
+        setErrorMessage('No records found.');
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
-      alert('Failed to fetch data.');
+      console.error('Error fetching user data:', error.message);
+      setErrorMessage('Failed to fetch data. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -124,7 +130,7 @@ const DashboardContent = () => {
     fetchUserData();
   }, []);
 
-  // Update charts
+  // Update expense chart
   const updateExpenseChart = (data) => {
     if (expenseChartRef.current) {
       if (expenseChartRef.current.chartInstance) {
@@ -146,6 +152,7 @@ const DashboardContent = () => {
     }
   };
 
+  // Update income vs savings vs expenses chart
   const updateIncomeSavingsChart = (income, savings, expenses) => {
     if (incomeSavingsChartRef.current) {
       if (incomeSavingsChartRef.current.chartInstance) {
@@ -175,54 +182,62 @@ const DashboardContent = () => {
           <p>Manage your finances efficiently</p>
         </header>
 
-        <form onSubmit={handleFormSubmit} className="input-form">
-          <h2>Enter Your Monthly Income & Expenses</h2>
-          <input type="number" name="income" placeholder="Monthly Income" required />
-          <input type="number" name="rent" placeholder="Rent" required />
-          <input type="number" name="groceries" placeholder="Groceries" required />
-          <input type="number" name="food" placeholder="Food & Dining" required />
-          <input type="number" name="wifi" placeholder="Wi-Fi Bill" required />
-          <input type="number" name="electricity" placeholder="Electricity Bill" required />
-          <input type="number" name="credit" placeholder="Credit Card Payments" required />
-          <button type="submit">Save</button>
-        </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        <div className="cards-container">
-          <div className="card">
-            <h3>Total Balance</h3>
-            <p>${totalBalance.toFixed(2)}</p>
-          </div>
-          <div className="card">
-            <h3>Total Expenses</h3>
-            <p>${totalExpenses.toFixed(2)}</p>
-          </div>
-        </div>
+        {loading ? (
+          <p>Loading data...</p>
+        ) : (
+          <>
+            <form onSubmit={handleFormSubmit} className="input-form">
+              <h2>Enter Your Monthly Income & Expenses</h2>
+              <input type="number" name="income" placeholder="Monthly Income" required />
+              <input type="number" name="rent" placeholder="Rent" required />
+              <input type="number" name="groceries" placeholder="Groceries" required />
+              <input type="number" name="food" placeholder="Food & Dining" required />
+              <input type="number" name="wifi" placeholder="Wi-Fi Bill" required />
+              <input type="number" name="electricity" placeholder="Electricity Bill" required />
+              <input type="number" name="credit" placeholder="Credit Card Payments" required />
+              <button type="submit">Save</button>
+            </form>
 
-        <div className="pie-charts">
-          <div className="pie-chart">
-            <h3>Expense Breakdown</h3>
-            <canvas ref={expenseChartRef}></canvas>
-          </div>
-          <div className="pie-chart">
-            <h3>Income vs Savings vs Expenses</h3>
-            <canvas ref={incomeSavingsChartRef}></canvas>
-          </div>
-        </div>
-
-        <h2>Previously Saved Records</h2>
-        <div>
-          {financeRecords.length > 0 ? (
-            financeRecords.map((record, index) => (
-              <div key={index}>
-                <p>Title: {record.title}</p>
-                <p>Amount: {record.amount}</p>
-                <p>Type: {record.type}</p>
+            <div className="cards-container">
+              <div className="card">
+                <h3>Total Balance</h3>
+                <p>${totalBalance.toFixed(2)}</p>
               </div>
-            ))
-          ) : (
-            <p>No records found.</p>
-          )}
-        </div>
+              <div className="card">
+                <h3>Total Expenses</h3>
+                <p>${totalExpenses.toFixed(2)}</p>
+              </div>
+            </div>
+
+            <div className="pie-charts">
+              <div className="pie-chart">
+                <h3>Expense Breakdown</h3>
+                <canvas ref={expenseChartRef}></canvas>
+              </div>
+              <div className="pie-chart">
+                <h3>Income vs Savings vs Expenses</h3>
+                <canvas ref={incomeSavingsChartRef}></canvas>
+              </div>
+            </div>
+
+            <h2>Previously Saved Records</h2>
+            <div>
+              {financeRecords.length > 0 ? (
+                financeRecords.map((record, index) => (
+                  <div key={index}>
+                    <p>Title: {record.title}</p>
+                    <p>Amount: {record.amount}</p>
+                    <p>Type: {record.type}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No records found.</p>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
