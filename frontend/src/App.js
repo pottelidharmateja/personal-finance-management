@@ -10,32 +10,23 @@ import Investments from './components/Investments';
 import Categories from './components/Categories';
 import Settings from './components/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
-import { AuthProvider } from './AuthContext';
-import SignOutButton from './components/SignOutButton';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="app-container">
-          <header className="app-header">
-            <SignOutButton />
-          </header>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            {/* Protected Routes */}
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
-            <Route path="/cash-flow" element={<ProtectedRoute><CashFlow /></ProtectedRoute>} />
-            <Route path="/investments" element={<ProtectedRoute><Investments /></ProtectedRoute>} />
-            <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        {/* Protect these routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
+        <Route path="/cash-flow" element={<ProtectedRoute><CashFlow /></ProtectedRoute>} />
+        <Route path="/investments" element={<ProtectedRoute><Investments /></ProtectedRoute>} />
+        <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+      </Routes>
+    </Router>
   );
 }
 

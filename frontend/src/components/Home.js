@@ -8,21 +8,25 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState('home');
   const navigate = useNavigate();
-  const nodeRef = useRef(null);
+  const nodeRef = useRef(null); // Create a ref for the transitioning element
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log('Token found:', token); // Log the token
     if (token) {
-      navigate('/dashboard'); // Redirect to dashboard if token exists
+      console.log('Redirecting to dashboard...'); // Log the redirect action
+      navigate('/dashboard'); // Redirect to dashboard if already logged in
     }
   }, [navigate]);
 
+  // Define background styles for different slides
   const backgroundStyles = {
     home: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${process.env.PUBLIC_URL}/images/v991-n-26.jpg)`,
     signup: 'black',
     login: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${process.env.PUBLIC_URL}/images/login-bg.jpg)`,
   };
 
+  // Inline style for the Home component
   const homeStyle = {
     backgroundImage: backgroundStyles[currentSlide],
     backgroundRepeat: 'no-repeat',
@@ -38,6 +42,7 @@ const Home = () => {
     transition: 'background 0.5s ease-in-out',
   };
 
+  // Handle transitions between slides
   const handleTransition = (slide) => {
     setCurrentSlide(slide);
   };
@@ -47,11 +52,11 @@ const Home = () => {
       <SwitchTransition>
         <CSSTransition
           key={currentSlide}
-          nodeRef={nodeRef}
+          nodeRef={nodeRef} // Attach the ref to CSSTransition
           classNames="fade"
           timeout={500}
         >
-          <div ref={nodeRef}>
+          <div ref={nodeRef}> {/* Attach the ref to the transitioning element */}
             {currentSlide === 'home' ? (
               <div style={{ textAlign: 'center' }}>
                 <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '20px' }}>Welcome to Personal Finance Management</h1>
