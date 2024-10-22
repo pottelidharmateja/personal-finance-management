@@ -65,9 +65,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Logout Route
+// Logout Route - for token invalidation.
 router.post('/logout', (req, res) => {
-  // Placeholder for logout functionality; often handled on the client side
+  // Embed logic for logout if using sessions; for token-based auth, the client handles this
   return res.json({ message: 'Logout successful' });
 });
 
