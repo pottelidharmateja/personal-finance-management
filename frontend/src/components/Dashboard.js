@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from './sidebar';
 import DashboardContent from './DashboardContent';
 import Transactions from './Transactions';
@@ -10,17 +10,11 @@ import Settings from './Settings';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="dashboard-container">
-      <Sidebar />
+      <Sidebar /> {/* Sidebar should be here */}
       <div className="content">
-        {/* Back Button */}
-        <button className="back-button" onClick={() => navigate('/')}>
-          Back
-        </button>
-
+        {/* Routes for different dashboard components */}
         <Routes>
           <Route path="/" element={<DashboardContent />} />
           <Route path="/transactions" element={<Transactions />} />

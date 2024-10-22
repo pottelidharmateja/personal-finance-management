@@ -1,3 +1,4 @@
+/* Container Styling */
 .login-container {
   display: flex;
   align-items: center;
@@ -40,6 +41,11 @@ input {
   color: #333;
 }
 
+input:focus {
+  outline: none;
+  border: 1px solid #e67e22; /* Highlight on focus */
+}
+
 /* Button Styling */
 button {
   padding: 15px;
@@ -65,10 +71,47 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Back Button Styling */
+.btn-outline-dark {
+  background-color: transparent;
+  border: 2px solid #7f8c8d; /* Border for outline effect */
+  color: #7f8c8d;
+}
+
+.btn-outline-dark:hover {
+  background-color: #7f8c8d;
+  color: white;
+}
+
+/* Signup Button Styling */
+.btn-info {
+  background-color: #3498db;
+  color: white;
+  margin-top: 10px;
+}
+
+.btn-info:hover {
+  background-color: #2980b9;
+}
+
 /* Error Message Styling */
 .error-message {
   color: #e74c3c;
   font-size: 0.9rem;
   margin-bottom: 10px;
   text-align: center;
+}
+
+/* Container Box Styling */
+.login-container > div {
+  backdrop-filter: blur(8px);
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

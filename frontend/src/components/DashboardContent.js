@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import './Dashboard.css';
 
 const DashboardContent = () => {
   const [totalBalance, setTotalBalance] = useState(0);
@@ -24,7 +25,6 @@ const DashboardContent = () => {
     setTotalBalance(balance);
     setTotalExpenses(expenses);
 
-    // Update pie charts
     updateExpenseChart([rent, groceries, food, wifi, electricity, credit]);
     updateIncomeSavingsChart(income, balance, expenses);
   };
@@ -66,34 +66,32 @@ const DashboardContent = () => {
   };
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-content">
-        <header className="dashboard-header">
-          <h1>Welcome Back!</h1>
-          <p>Manage your finances efficiently</p>
-        </header>
+    <div className="dashboard-content">
+      <header className="dashboard-header">
+        <h1>Welcome Back!</h1>
+        <p>Manage your finances efficiently</p>
+      </header>
 
-        <form onSubmit={handleFormSubmit} className="input-form">
-          <h2>Enter Your Monthly Income & Expenses</h2>
-          <input type="number" name="income" placeholder="Monthly Income" required />
-          <input type="number" name="rent" placeholder="Rent" required />
-          <input type="number" name="groceries" placeholder="Groceries" required />
-          <input type="number" name="food" placeholder="Food & Dining" required />
-          <input type="number" name="wifi" placeholder="Wi-Fi Bill" required />
-          <input type="number" name="electricity" placeholder="Electricity Bill" required />
-          <input type="number" name="credit" placeholder="Credit Card Payments" required />
-          <button type="submit">Save</button>
-        </form>
+      <form onSubmit={handleFormSubmit} className="input-form">
+        <h2>Enter Your Monthly Income & Expenses</h2>
+        <input type="number" name="income" placeholder="Monthly Income" required />
+        <input type="number" name="rent" placeholder="Rent" required />
+        <input type="number" name="groceries" placeholder="Groceries" required />
+        <input type="number" name="food" placeholder="Food & Dining" required />
+        <input type="number" name="wifi" placeholder="Wi-Fi Bill" required />
+        <input type="number" name="electricity" placeholder="Electricity Bill" required />
+        <input type="number" name="credit" placeholder="Credit Card Payments" required />
+        <button type="submit">Save</button>
+      </form>
 
-        <div className="cards-container">
-          <div className="card">
-            <h3>Total Balance</h3>
-            <p>${totalBalance.toFixed(2)}</p>
-          </div>
-          <div className="card">
-            <h3>Total Expenses</h3>
-            <p>${totalExpenses.toFixed(2)}</p>
-          </div>
+      <div className="cards-container">
+        <div className="card">
+          <h3>Total Balance</h3>
+          <p>${totalBalance.toFixed(2)}</p>
+        </div>
+        <div className="card">
+          <h3>Total Expenses</h3>
+          <p>${totalExpenses.toFixed(2)}</p>
         </div>
       </div>
 

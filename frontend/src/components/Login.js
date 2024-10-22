@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Login = ({ handleTransition }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,11 @@ const Login = ({ handleTransition }) => {
       setLoading(false);
       setErrorMessage(error.response?.data?.error || 'Login failed. Please try again.');
     }
+  };
+
+  // Navigate to signup page
+  const goToSignup = () => {
+    navigate('/signup');
   };
 
   return (
@@ -66,7 +71,7 @@ const Login = ({ handleTransition }) => {
           style={{ width: '70px', height: 'auto', marginBottom: '20px' }}
         />
         <h3 className="mb-4" style={{ color: '#333', fontWeight: 'bold' }}>Login</h3>
-        
+
         {/* Display error message */}
         {errorMessage && (
           <div className="alert alert-danger" style={{ width: '100%', marginBottom: '15px' }}>
@@ -112,10 +117,20 @@ const Login = ({ handleTransition }) => {
         <button
           type="button"
           className="btn btn-outline-dark"
-          onClick={() => handleTransition('home')}
+          onClick={goToSignup}
           style={{ width: '100%', padding: '10px', marginTop: '10px', fontSize: '1rem' }}
         >
           Back
+        </button>
+
+        {/* Signup button */}
+        <button
+          type="button"
+          className="btn btn-info mt-3"
+          onClick={goToSignup}
+          style={{ width: '100%', padding: '10px', fontSize: '1rem', fontWeight: 'bold', color: 'white' }}
+        >
+          Signup
         </button>
       </div>
     </div>
