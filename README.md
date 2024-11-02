@@ -17,4 +17,4 @@ Personal Finance Management is a web application designed to help users manage t
 - **HTML/CSS**: For structuring and styling the web pages.
 - **JavaScript (future)**: For adding interactivity and enhancing user experience.
 - **Backend (future)**: To be implemented with a server-side language such as Python (Flask/Django) or    JavaScript (Node.js) to handle data and user management.
-- **Database (future)**: For storing user information, transactions, and account details securely.
+- **Database (future)**: used MngoDB For storing user information, transactions, and account details securely.
