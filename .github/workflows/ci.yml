@@ -1,0 +1,31 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - sprint_2  # Only run CI on the sprint_2 branch
+  pull_request:
+    branches:
+      - sprint_2
+      - main  # Optionally run CI on pull requests to main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Adjust Node.js version as needed
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./backend  # Specify your backend path if different
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./backend  # Specify your backend path if different
