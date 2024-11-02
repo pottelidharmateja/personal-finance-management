@@ -12,6 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # Set a timeout to prevent the job from hanging indefinitely
 
     steps:
       - name: Checkout code
@@ -22,10 +23,18 @@ jobs:
         with:
           node-version: '20'  # Adjust Node.js version as needed
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm install
         working-directory: ./backend  # Specify your backend path if different
 
       - name: Run tests
-        run: npm test
+        run: node --experimental-modules node_modules/mocha/bin/mocha test/app.test.js
         working-directory: ./backend  # Specify your backend path if different
