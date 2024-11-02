@@ -6,6 +6,7 @@ import authRoutes from './src/routes/auth.js';
 import financeRoutes from './src/routes/Finance.js';
 import userRoutes from './src/routes/user.js';
 import userInputRoutes from './src/routes/userinput.js';
+import { MongoMemoryServer } from 'mongodb-memory-server'; // Import in-memory server
 
 // Load environment variables from .env file
 dotenv.config();
@@ -24,13 +25,32 @@ app.use(cors({
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => {
+// Function to connect to MongoDB
+const connectToMongoDB = async () => {
+  console.time("MongoDB Connection Time"); // Start logging time
+
+  try {
+    if (process.env.NODE_ENV === 'test') {
+      // Use in-memory MongoDB for tests
+      const mongoServer = await MongoMemoryServer.create();
+      const uri = mongoServer.getUri();
+      await mongoose.connect(uri);
+      console.log("Connected to in-memory MongoDB for tests");
+    } else {
+      // Use MongoDB Atlas URI for non-test environments
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log("Connected to MongoDB Atlas");
+    }
+  } catch (err) {
     console.error('MongoDB connection error:', err);
     process.exit(1);
-  });
+  } finally {
+    console.timeEnd("MongoDB Connection Time"); // End logging time
+  }
+};
+
+// Call MongoDB connection function
+connectToMongoDB();
 
 // Register routes
 app.use('/api/auth', authRoutes);

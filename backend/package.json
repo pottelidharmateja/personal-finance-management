@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-modules node_modules/mocha/bin/mocha test/app.test.js"
+    "test": "mocha test/app.test.js"
   },
   "keywords": [],
   "author": "",
