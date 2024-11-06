@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "mocha test/app.test.js"
+    "test": "NODE_ENV=test mocha --timeout 5000"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +25,7 @@
     "chai-http": "^5.1.1",
     "esm": "^3.2.25",
     "mocha": "^10.7.3",
+    "mongodb-memory-server": "^10.1.2",
     "supertest": "^7.0.0"
   }
 }
