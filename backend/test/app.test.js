@@ -2,18 +2,21 @@ import request from 'supertest';
 import assert from 'assert';
 import mongoose from 'mongoose';
 import server from '../server.js';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import User from '../src/models/user.js';
 import FinanceRecord from '../src/models/FinanceRecord.js';
 
 // Test Data
 const testUser = { email: 'testuser@example.com', password: 'password123' };
 let jwtToken = '';
+let mongoServer;
 
 describe('Personal Finance Management App Backend Tests', () => {
-
-  // Before all tests, connect to MongoDB
+  // Before all tests, start in-memory MongoDB and connect
   before(async () => {
-    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   });
 
   // After all tests, clear test data and close MongoDB connection
@@ -21,24 +24,25 @@ describe('Personal Finance Management App Backend Tests', () => {
     await User.deleteMany({});
     await FinanceRecord.deleteMany({});
     await mongoose.connection.close();
+    await mongoServer.stop(); // Stop in-memory MongoDB
   });
+
   it('should register a new user', async function() {
     this.timeout(5000); // Increase timeout to 5000ms or as needed
     const res = await request(server)
       .post('/api/auth/signup')
       .set('Authorization', `Bearer ${jwtToken}`)
       .send(testUser);
-  
+    
     assert.strictEqual(res.status, 201);
     assert.strictEqual(res.body.message, 'User created successfully!');
   });
-  
 
   // Test: User Login
   it('should login a user and return a JWT token', async () => {
     const res = await request(server)
       .post('/api/auth/login')
-      .set('Authorization', `Bearer ${jwtToken}`) // Ensure jwtToken is defined
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send(testUser);
 
     assert.strictEqual(res.status, 200);
@@ -76,5 +80,4 @@ describe('Personal Finance Management App Backend Tests', () => {
     assert.strictEqual(res.status, 200);
     assert.strictEqual(res.body.email, testUser.email);
   });
-
 });
