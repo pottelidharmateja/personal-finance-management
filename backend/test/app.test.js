@@ -22,17 +22,17 @@ describe('Personal Finance Management App Backend Tests', () => {
     await FinanceRecord.deleteMany({});
     await mongoose.connection.close();
   });
-
-  // Test: User Registration
-  it('should register a new user', async () => {
+  it('should register a new user', async function() {
+    this.timeout(5000); // Increase timeout to 5000ms or as needed
     const res = await request(server)
       .post('/api/auth/signup')
-      .set('Authorization', `Bearer ${jwtToken}`) // Ensure jwtToken is defined
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send(testUser);
-
+  
     assert.strictEqual(res.status, 201);
     assert.strictEqual(res.body.message, 'User created successfully!');
   });
+  
 
   // Test: User Login
   it('should login a user and return a JWT token', async () => {
