@@ -1,9 +1,30 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  loginHistory: [{ type: Date }] // Array to store login timestamps
+const FinanceRecordSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ['income', 'expense'],
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const FinanceRecord = mongoose.model('FinanceRecord', FinanceRecordSchema);
+
+export default FinanceRecord; // Exporting using ES module syntax

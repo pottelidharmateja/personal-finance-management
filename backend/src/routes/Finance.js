@@ -1,6 +1,7 @@
-const express = require('express');
-const FinanceRecord = require('../models/FinanceRecord');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import FinanceRecord from '../models/FinanceRecord.js';
+import jwt from 'jsonwebtoken';
+
 const router = express.Router();
 
 // Middleware to authenticate user
@@ -24,5 +25,15 @@ router.get('/records', authenticate, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch records' });
   }
 });
+router.post('/records', authenticate, async (req, res) => {
+  try {
+    const { title, amount, type } = req.body;
+    const newRecord = new FinanceRecord({ title, amount, type, userId: req.user.userId });
+    await newRecord.save();
+    res.status(201).json(newRecord);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create finance record' });
+  }
+});
 
-module.exports = router;
+export default router; // Use ES module export syntax

@@ -1,45 +1,21 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faExchangeAlt, faChartLine, faPiggyBank, faTags, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faExchangeAlt, faChartLine, faPiggyBank, faTags, faCog } from '@fortawesome/free-solid-svg-icons';
 import './sidebar.css';
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-
-  // Handle logout logic
-  const handleLogout = () => {
-    // Clear user session data
-    localStorage.removeItem('userToken'); // Example key, modify as needed
-    // Redirect to login page
-    navigate('/login');
-  };
-
   return (
     <div className="sidebar">
-      <Link to="/dashboard" className="sidebar-link">
-        <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
-      </Link>
-      <Link to="/transactions" className="sidebar-link">
-        <FontAwesomeIcon icon={faExchangeAlt} /> Transactions
-      </Link>
-      <Link to="/cash-flow" className="sidebar-link">
-        <FontAwesomeIcon icon={faChartLine} /> Cash Flow
-      </Link>
-      <Link to="/investments" className="sidebar-link">
-        <FontAwesomeIcon icon={faPiggyBank} /> Investments
-      </Link>
-      <Link to="/categories" className="sidebar-link">
-        <FontAwesomeIcon icon={faTags} /> Categories
-      </Link>
-      <Link to="/settings" className="sidebar-link">
-        <FontAwesomeIcon icon={faCog} /> Settings
-      </Link>
-
-      {/* Logout Button */}
-      <button className="sidebar-link logout-button" onClick={handleLogout}>
-        <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-      </button>
+      <div className="logo">My Finance</div>
+      <nav className="nav">
+        <li><Link to="/" className="nav-link"><FontAwesomeIcon icon={faTachometerAlt} /> Dashboard</Link></li>
+        <li><Link to="/transactions" className="nav-link"><FontAwesomeIcon icon={faExchangeAlt} /> Transactions</Link></li>
+        <li><Link to="/cash-flow" className="nav-link"><FontAwesomeIcon icon={faChartLine} /> Cash Flow</Link></li>
+        <li><Link to="/investments" className="nav-link"><FontAwesomeIcon icon={faPiggyBank} /> Investments</Link></li>
+        <li><Link to="/categories" className="nav-link"><FontAwesomeIcon icon={faTags} /> Categories</Link></li>
+        <li><Link to="/settings" className="nav-link"><FontAwesomeIcon icon={faCog} /> Settings</Link></li>
+      </nav>
     </div>
   );
 };

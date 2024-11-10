@@ -1,12 +1,13 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user'); // Import User model
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/user.js'; // Import User model using ES modules
+
 const router = express.Router();
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-  const { email, password } = req.body; // Destructure email and password
+  const { email, password } = req.body;
 
   // Debug: Log the incoming request body
   console.log('Received signup request:', req.body);
@@ -30,16 +31,17 @@ router.post('/signup', async (req, res) => {
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
+    // Respond with a success message
     return res.status(201).json({ message: 'User created successfully!' });
   } catch (error) {
-    console.error('Signup error:', error.message);
+    console.error('Signup error:', error);
     return res.status(500).json({ error: 'Signup failed. Please try again.' });
   }
 });
 
 // Login Route
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body; // Destructure email and password
+  const { email, password } = req.body;
 
   // Debug: Log the incoming request body
   console.log('Received login request:', req.body);
@@ -61,6 +63,7 @@ router.post('/login', async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ error: 'Invalid password. Try again.' });
     }
+    
 
     // Generate a JWT token
     const token = jwt.sign(
@@ -69,12 +72,12 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Respond with the token
-    return res.json({ message: 'Login successful', token });
+    // Respond with the token and user info
+    return res.json({ message: 'Login successful', token, user: { id: user._id, email: user.email } });
   } catch (error) {
-    console.error('Login error:', error.message);
+    console.error('Login error:', error);
     return res.status(500).json({ error: 'Login failed. Please try again later.' });
   }
 });
 
-module.exports = router;
+export default router; // Use default export for ES module compatibility

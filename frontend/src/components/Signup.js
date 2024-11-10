@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = ({ handleTransition }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -10,23 +10,22 @@ const Signup = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // Handle signup form submission
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     // Validate passwords match
     if (password !== confirmPassword) {
       setLoading(false);
       setErrorMessage('Passwords do not match.');
       return;
     }
-
+  
     try {
       // Send signup request to the backend
       await axios.post('http://localhost:5500/api/auth/signup', { email, password });
-
+  
       // Display success message and redirect to login
       alert('Signup successful! Please log in.');
       navigate('/login');
@@ -37,16 +36,11 @@ const Signup = () => {
       setErrorMessage(message);
     }
   };
-
-  // Navigate to the homepage
-  const goToHome = () => {
-    navigate('/');
-  };
-
+  
   return (
     <div
       style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL}/images/signup-bg.jpg)`,
+        backgroundImage: `url(${process.env.PUBLIC_URL}/images/signup-bg.jpg)`, // Background image
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -59,7 +53,7 @@ const Signup = () => {
       }}
     >
       <img
-        src={`${process.env.PUBLIC_URL}/images/account.png`}
+        src={`${process.env.PUBLIC_URL}/images/account.png`} // Signup logo
         alt="Signup Logo"
         style={{ width: '120px', height: 'auto', marginBottom: '20px' }}
       />
@@ -92,23 +86,14 @@ const Signup = () => {
         <button
           type="submit"
           disabled={loading}
-          style={{
-            padding: '10px 20px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            backgroundColor: '#e67e22',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            marginTop: '10px',
-          }}
+          style={{ padding: '10px 20px', fontSize: '1rem', fontWeight: 'bold', backgroundColor: '#e67e22', color: 'white', border: 'none', borderRadius: '5px', marginTop: '10px' }}
         >
           {loading ? 'Signing up...' : 'Signup'}
         </button>
       </form>
       <button
         type="button"
-        onClick={goToHome}  // Navigate to homepage
+        onClick={() => handleTransition('home')}
         className="btn btn-light"
         style={{ padding: '10px 20px', fontSize: '1rem', marginTop: '20px', borderRadius: '5px' }}
       >

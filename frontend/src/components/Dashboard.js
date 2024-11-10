@@ -12,9 +12,10 @@ import './Dashboard.css';
 const Dashboard = () => {
   return (
     <div className="dashboard-container">
-      <Sidebar /> {/* Sidebar should be here */}
+      <Sidebar />
       <div className="content">
-        {/* Routes for different dashboard components */}
+        {/* Removed the "Back" button completely */}
+        
         <Routes>
           <Route path="/" element={<DashboardContent />} />
           <Route path="/transactions" element={<Transactions />} />
