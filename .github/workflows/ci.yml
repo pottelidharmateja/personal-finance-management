@@ -3,11 +3,11 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - haji  # Include your branch here
+      - haji
       - sprint3
   pull_request:
     branches:
-      - haji  # Include your branch here
+      - haji
       - sprint3
       - main
 
