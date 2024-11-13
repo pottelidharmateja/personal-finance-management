@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "mocha test/app.test.js"
+    "test":  "mocha --timeout 5000 --experimental-modules"
   },
   "keywords": [],
   "author": "",
@@ -13,18 +13,22 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "chart.js": "^4.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
+    "react-chartjs-2": "^5.2.0",
     "react-router-dom": "^6.27.0"
   },
   "devDependencies": {
     "chai": "^5.1.1",
     "chai-http": "^5.1.1",
+    "cross-env": "^7.0.3",
     "esm": "^3.2.25",
     "mocha": "^10.7.3",
+    "mongodb-memory-server": "^10.1.2",
     "supertest": "^7.0.0"
   }
 }
