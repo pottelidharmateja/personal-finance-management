@@ -3,9 +3,11 @@ name: CI Pipeline
 on:
   push:
     branches:
+      - haji  # Include your branch here
       - sprint3
   pull_request:
     branches:
+      - haji  # Include your branch here
       - sprint3
       - main
 
@@ -30,12 +32,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: npm install
         working-directory: ./backend
 
-      - name: Run tests
+      - name: Run backend tests
         env:
           NODE_ENV: test
         run: npm test
         working-directory: ./backend
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Run frontend tests
+        env:
+          NODE_ENV: test
+        run: npm test
+        working-directory: ./frontend
