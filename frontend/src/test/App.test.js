@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
@@ -9,7 +10,7 @@ import Categories from '../components/Categories';
 
 describe('Dashboard Component', () => {
   beforeEach(() => {
-    localStorage.clear();
+    localStorage.clear(); // Clear localStorage before each test
   });
 
   test('renders Transactions component when navigating to /transactions', () => {
@@ -22,6 +23,7 @@ describe('Dashboard Component', () => {
       </MemoryRouter>
     );
 
+    // Make sure to adjust the text being searched to accurately reflect what's rendered in Transactions component
     expect(screen.getByText(/Transactions to Review/i)).toBeInTheDocument(); 
   });
 
@@ -35,6 +37,7 @@ describe('Dashboard Component', () => {
       </MemoryRouter>
     );
 
+    // Adjust this text if necessary to match actual output in CashFlow component
     expect(screen.getByText(/This section will display cash flow details/i)).toBeInTheDocument(); 
   });
 
@@ -48,6 +51,7 @@ describe('Dashboard Component', () => {
       </MemoryRouter>
     );
 
+    // Check if the Investments content is displayed
     expect(screen.getByText(/Investments/i)).toBeInTheDocument();
   });
 
@@ -61,6 +65,7 @@ describe('Dashboard Component', () => {
       </MemoryRouter>
     );
 
+    // Check if the Categories content is displayed
     expect(screen.getByText(/Categories/i)).toBeInTheDocument();
   });
 });
