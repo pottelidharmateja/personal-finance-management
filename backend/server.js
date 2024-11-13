@@ -37,9 +37,14 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Personal Finance Management API');
 });
 
+// Temporary route to test global error handler
+app.get('/error-test', (req, res, next) => {
+  next(new Error('This is a test error'));
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Global error:', err);
+  console.error('Global error:', err.message);
   res.status(500).json({ error: 'An unexpected error occurred.' });
 });
 

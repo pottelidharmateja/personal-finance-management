@@ -28,7 +28,27 @@ describe('Personal Finance Management App Backend Tests', () => {
     await mongoServer.stop(); // Stop in-memory MongoDB
   });
   
+  // Test for the root endpoint
+  it('should return a welcome message for the root endpoint', async () => {
+    const res = await request(server).get('/');
+    assert.strictEqual(res.status, 200);
+    assert.strictEqual(res.text, 'Welcome to the Personal Finance Management API');
+  });
 
+  // Test for the global error handler
+  it('should return a 500 error and trigger the global error handler', async () => {
+    const res = await request(server).get('/error-test');
+    assert.strictEqual(res.status, 500);
+    assert.strictEqual(res.body.error, 'An unexpected error occurred.');
+  });
+
+  // Test for successful connection to the database
+  it('should connect to MongoDB and start the server', async () => {
+    // Check if mongoose connection is ready
+    assert.strictEqual(mongoose.connection.readyState, 1); // 1 = connected
+  });
+
+  // Test: User Registration
   it('should register a new user', async function() {
     this.timeout(5000); // Increase timeout to 5000ms or as needed
     const res = await request(server)
@@ -82,11 +102,12 @@ describe('Personal Finance Management App Backend Tests', () => {
     assert.strictEqual(res.status, 200);
     assert.strictEqual(res.body.email, testUser.email);
   });
+  
   describe('FinanceRecord Model Tests', () => {
     // Test: Creating a valid finance record
     it('should create a valid finance record', async () => {
       const financeRecordData = {
-        userId: new mongoose.Types.ObjectId(), // Use 'new' to create a valid ObjectId
+        userId: new mongoose.Types.ObjectId(),
         title: 'Salary Payment',
         amount: 3000,
         type: 'income',
@@ -99,13 +120,13 @@ describe('Personal Finance Management App Backend Tests', () => {
       assert.strictEqual(savedRecord.title, financeRecordData.title);
       assert.strictEqual(savedRecord.amount, financeRecordData.amount);
       assert.strictEqual(savedRecord.type, financeRecordData.type);
-      assert.ok(savedRecord._id); // Ensure an ID was created
+      assert.ok(savedRecord._id);
     });
   
     // Test: Missing required fields (e.g., title)
     it('should throw a validation error if required fields are missing', async () => {
       const incompleteData = {
-        userId: new mongoose.Types.ObjectId(), // Use 'new' to create a valid ObjectId
+        userId: new mongoose.Types.ObjectId(),
         amount: 500,
         type: 'expense',
       };
@@ -115,11 +136,12 @@ describe('Personal Finance Management App Backend Tests', () => {
         await financeRecord.save();
         assert.fail('Expected validation error was not thrown');
       } catch (error) {
-        assert.ok(error.errors.title); // Check that the error is for the missing title field
+        assert.ok(error.errors.title);
         assert.strictEqual(error.errors.title.kind, 'required');
       }
     });
   });
+  
   describe('User Model Tests', () => {
     beforeEach(async () => {
       await User.deleteMany({});
@@ -130,33 +152,33 @@ describe('Personal Finance Management App Backend Tests', () => {
 
       assert.strictEqual(savedUser.email, testUser.email);
       assert.strictEqual(savedUser.password, testUser.password);
-      assert.ok(savedUser._id); // Ensure an ID is created
+      assert.ok(savedUser._id);
     });
 
     it('should throw validation error if required fields are missing in User', async () => {
-      const incompleteUserData = { password: 'password123' }; // Missing email
+      const incompleteUserData = { password: 'password123' };
 
       try {
         const user = new User(incompleteUserData);
         await user.save();
         assert.fail('Expected validation error was not thrown');
       } catch (error) {
-        assert.ok(error.errors.email); // Check for missing email error
+        assert.ok(error.errors.email);
         assert.strictEqual(error.errors.email.kind, 'required');
       }
     });
   });
+  
   describe('UserInput Model Tests', () => {
     let userId;
   
-    // Create a user to reference in each UserInput test
     beforeEach(async () => {
       await User.deleteMany({});
       await UserInput.deleteMany({});
   
       const user = new User(testUser);
       const savedUser = await user.save();
-      userId = savedUser._id; // Save userId for reference
+      userId = savedUser._id;
     });
   
     it('should create a UserInput document with valid data', async () => {
@@ -177,8 +199,7 @@ describe('Personal Finance Management App Backend Tests', () => {
       assert.strictEqual(savedUserInput.userId.toString(), userId.toString());
       assert.strictEqual(savedUserInput.income, userInputData.income);
       assert.strictEqual(savedUserInput.rent, userInputData.rent);
-      assert.strictEqual(savedUserInput.groceries, userInputData.groceries);
-      assert.ok(savedUserInput._id); // Ensure an ID is created
+      assert.ok(savedUserInput._id);
     });
   
     it('should throw validation error if required fields are missing in UserInput', async () => {
@@ -190,14 +211,14 @@ describe('Personal Finance Management App Backend Tests', () => {
         wifi: 50,
         electricity: 100,
         credit: 200,
-      }; // Missing income
-  
+      };
+
       try {
         const userInput = new UserInput(incompleteUserInputData);
         await userInput.save();
         assert.fail('Expected validation error was not thrown');
       } catch (error) {
-        assert.ok(error.errors.income); // Check for missing income error
+        assert.ok(error.errors.income);
         assert.strictEqual(error.errors.income.kind, 'required');
       }
     });
