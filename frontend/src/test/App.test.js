@@ -1,17 +1,15 @@
-
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from '../components/Dashboard'; 
+import Dashboard from '../components/Dashboard';
 import Transactions from '../components/Transactions';
 import CashFlow from '../components/CashFlow';
 import Investments from '../components/Investments';
 import Categories from '../components/Categories';
 
 describe('Dashboard Component', () => {
-  
   beforeEach(() => {
-    localStorage.clear(); // Clear localStorage before each test
+    localStorage.clear();
   });
 
   test('renders Transactions component when navigating to /transactions', () => {
