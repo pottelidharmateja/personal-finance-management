@@ -6,7 +6,7 @@ describe('Personal Finance Management App Backend Routes', () => {
     let jwtToken = '';
     const testUser = { email: 'testuser@example.com', password: 'password123' };
 
-
+   
     // Test: User Login
     describe('POST /api/auth/login', () => {
         it('should login the user and return a JWT token', async () => {
