@@ -1,0 +1,44 @@
+/* ProfileDropdown.css */
+.profile-dropdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+  
+  .dropdown-menu p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .dropdown-menu button {
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+  

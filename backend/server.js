@@ -6,6 +6,7 @@ import authRoutes from './src/routes/auth.js';
 import financeRoutes from './src/routes/Finance.js';
 import userRoutes from './src/routes/user.js';
 import userInputRoutes from './src/routes/userinput.js';
+import ExpenseRoutes from './src/routes/ExpenseRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(express.json());
 
 // Register routes
 app.use('/api/auth', authRoutes);
+app.use('/api/ExpenseRoutes', ExpenseRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/user-inputs', userInputRoutes);

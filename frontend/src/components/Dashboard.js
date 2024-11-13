@@ -7,15 +7,21 @@ import CashFlow from './CashFlow';
 import Investments from './Investments';
 import Categories from './Categories';
 import Settings from './Settings';
+import ProfileDropdown from './ProfileDropdown';
 import './Dashboard.css';
+import './ProfileDropdown.css';
 
 const Dashboard = () => {
+  // Retrieve the user's name from localStorage for display in ProfileDropdown
+  const userName = localStorage.getItem('userName') || "User's Name"; // Fallback to "User's Name" if not available
+
   return (
     <div className="dashboard-container">
       <Sidebar />
+      <div className="top-bar">
+        <ProfileDropdown username={userName} /> {/* Pass the actual username */}
+      </div>
       <div className="content">
-        {/* Removed the "Back" button completely */}
-        
         <Routes>
           <Route path="/" element={<DashboardContent />} />
           <Route path="/transactions" element={<Transactions />} />
