@@ -8,6 +8,7 @@ import CashFlow from '../components/CashFlow';
 import Investments from '../components/Investments';
 import Categories from '../components/Categories';
 
+
 describe('Dashboard Component', () => {
   beforeEach(() => {
     localStorage.clear(); // Clear localStorage before each test
