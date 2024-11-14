@@ -32,7 +32,7 @@ describe('Home Component', () => {
   });
 
   beforeEach(() => {
-    // Mock localStorage to start without a token
+    // Mock localStorage to start with no token
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: jest.fn(() => null), // Start with no token
@@ -84,6 +84,47 @@ describe('Home Component', () => {
     await waitFor(() => expect(screen.getByText(/Login Component/i)).toBeInTheDocument());
   });
 
-  // Removed the tests that were encountering issues
-  // Example: Not checking redirection if token exists, etc.
+  test('returns to Home when clicking Back to Home from Signup', async () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText(/Signup/i));
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waits for the button to appear
+    await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
+  });
+
+  test('returns to Home when clicking Back to Home from Login', async () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText(/Login/i));
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waits for the button to appear
+    await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
+  });
+
+  test('redirects to dashboard if token exists', () => {
+    // Simulate a token in local storage
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: jest.fn(() => 'mock-token'), // Mock that a token is available
+        setItem: jest.fn(),
+        clear: jest.fn(),
+      },
+      writable: true,
+    });
+
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Verify navigation to the dashboard
+  });
 });
