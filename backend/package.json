@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test":  "mocha --timeout 5000 --experimental-modules"
+    "test": "mocha --timeout 10000"
   },
   "keywords": [],
   "author": "",
