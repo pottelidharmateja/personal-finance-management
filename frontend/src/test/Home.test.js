@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Home from '../components/Home';
+import Home from '../components/Home'; // Ensure the path is correct
 
 // Mock the Signup and Login components
 jest.mock('../components/Signup', () => (props) => (
@@ -32,10 +32,10 @@ describe('Home Component', () => {
   });
 
   beforeEach(() => {
-    // Mock localStorage to contain a token
+    // Mock localStorage to simulate initial state with no token
     Object.defineProperty(window, 'localStorage', {
       value: {
-        getItem: jest.fn(() => null), // Simulating no token at first
+        getItem: jest.fn(() => null), // Start with no token
         setItem: jest.fn(),
         clear: jest.fn(),
       },
@@ -70,8 +70,6 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Signup/i));
-
-    // Wait for the Signup Component to be rendered
     await waitFor(() => expect(screen.getByText(/Signup Component/i)).toBeInTheDocument());
   });
 
@@ -83,8 +81,6 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Login/i));
-
-    // Wait for the Login Component to be rendered
     await waitFor(() => expect(screen.getByText(/Login Component/i)).toBeInTheDocument());
   });
 
@@ -96,11 +92,7 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Signup/i));
-
-    // Click 'Back to Home' button after signup
-    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waiting for the element
-
-    // Wait for Home to be back in the document
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Wait for the button
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
   });
 
@@ -112,18 +104,20 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Login/i));
-
-    // Click 'Back to Home' button after login
-    fireEvent.click(await screen.findByText(/Back to Home/i));
-
-    // Wait for Home to be back in the document
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Wait for the button
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
   });
 
-  // Mock a scenario where a token exists
   test('redirection to dashboard if token exists', () => {
     // Set a mock token in localStorage
-    window.localStorage.getItem = jest.fn(() => 'mock-token'); // Simulating the presence of a token
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: jest.fn(() => 'mock-token'), // Simulating presence of a token
+        setItem: jest.fn(),
+        clear: jest.fn(),
+      },
+      writable: true,
+    });
 
     render(
       <MemoryRouter>
@@ -131,6 +125,6 @@ describe('Home Component', () => {
       </MemoryRouter>
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Check if navigate was called to the dashboard
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Verify navigate function is called with correct path
   });
 });
