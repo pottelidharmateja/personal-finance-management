@@ -32,7 +32,7 @@ describe('Home Component', () => {
   });
 
   beforeEach(() => {
-    // Mock localStorage to simulate initial state with no token
+    // Mock localStorage
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: jest.fn(() => null), // Start with no token
@@ -92,7 +92,7 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Signup/i));
-    fireEvent.click(await screen.findByText(/Back to Home/i)); // Wait for the button
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waits for the button to appear
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
   });
 
@@ -104,15 +104,15 @@ describe('Home Component', () => {
     );
 
     fireEvent.click(screen.getByText(/Login/i));
-    fireEvent.click(await screen.findByText(/Back to Home/i)); // Wait for the button
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waits for the button to appear
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
   });
 
-  test('redirection to dashboard if token exists', () => {
-    // Set a mock token in localStorage
+  test('redirects to dashboard if token exists', () => {
+    // Simulate a token in local storage
     Object.defineProperty(window, 'localStorage', {
       value: {
-        getItem: jest.fn(() => 'mock-token'), // Simulating presence of a token
+        getItem: jest.fn(() => 'mock-token'), // Mock token available
         setItem: jest.fn(),
         clear: jest.fn(),
       },
@@ -125,6 +125,6 @@ describe('Home Component', () => {
       </MemoryRouter>
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Verify navigate function is called with correct path
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Verify navigation to the dashboard
   });
 });
