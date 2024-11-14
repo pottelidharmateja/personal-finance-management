@@ -3,10 +3,12 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - sprint_2
+      - chandu1
+      - sprint3
   pull_request:
     branches:
-      - sprint_2
+      - chandu1
+      - sprint3
       - main
 
 jobs:
@@ -14,26 +16,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # Step 3: Cache Node.js dependencies for faster builds
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: ./backend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # Debug Step: Verify cache restoration (Optional)
+      - name: Check Cache Directory
+        run: ls -la ./backend/node_modules || echo "Cache directory not restored or not found"
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: npm install
         working-directory: ./backend
 
+      # Step 5: Run tests
       - name: Run tests
         env:
           NODE_ENV: test
