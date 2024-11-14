@@ -6,6 +6,17 @@ describe('Personal Finance Management App Backend Routes', () => {
     let jwtToken = '';
     const testUser = { email: 'testuser@example.com', password: 'password123' };
 
+   // Test: User Registration
+   describe('POST /api/auth/signup', () => {
+    it('should register a new user and return successful message', async () => {
+        const res = await request(server)
+            .post('/api/auth/signup')
+            .send(testUser);
+        assert.strictEqual(res.status, 201);
+        assert.strictEqual(res.body.message, 'User created successfully!');
+    });
+});
+
 
     // Test: User Login
     describe('POST /api/auth/login', () => {
