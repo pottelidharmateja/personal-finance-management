@@ -31,6 +31,18 @@ describe('Home Component', () => {
     jest.clearAllMocks();
   });
 
+  beforeEach(() => {
+    // Mock localStorage to contain a token
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: jest.fn(() => null), // Simulating no token at first
+        setItem: jest.fn(),
+        clear: jest.fn(),
+      },
+      writable: true,
+    });
+  });
+
   test('renders Home component initially', () => {
     render(
       <MemoryRouter>
@@ -59,7 +71,7 @@ describe('Home Component', () => {
 
     fireEvent.click(screen.getByText(/Signup/i));
 
-    // Wait for the Signup Component to be in the document
+    // Wait for the Signup Component to be rendered
     await waitFor(() => expect(screen.getByText(/Signup Component/i)).toBeInTheDocument());
   });
 
@@ -72,7 +84,7 @@ describe('Home Component', () => {
 
     fireEvent.click(screen.getByText(/Login/i));
 
-    // Wait for the Login Component to be in the document
+    // Wait for the Login Component to be rendered
     await waitFor(() => expect(screen.getByText(/Login Component/i)).toBeInTheDocument());
   });
 
@@ -86,7 +98,7 @@ describe('Home Component', () => {
     fireEvent.click(screen.getByText(/Signup/i));
 
     // Click 'Back to Home' button after signup
-    fireEvent.click(await screen.findByText(/Back to Home/i)); // Using findByText waits for the element
+    fireEvent.click(await screen.findByText(/Back to Home/i)); // Waiting for the element
 
     // Wait for Home to be back in the document
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
@@ -102,21 +114,16 @@ describe('Home Component', () => {
     fireEvent.click(screen.getByText(/Login/i));
 
     // Click 'Back to Home' button after login
-    fireEvent.click(await screen.findByText(/Back to Home/i)); // Using findByText waits for the element
+    fireEvent.click(await screen.findByText(/Back to Home/i));
 
     // Wait for Home to be back in the document
     await waitFor(() => expect(screen.getByText(/Welcome to Personal Finance Management/i)).toBeInTheDocument());
   });
 
+  // Mock a scenario where a token exists
   test('redirection to dashboard if token exists', () => {
-    // Mock localStorage to contain a token
-    Object.defineProperty(window, 'localStorage', {
-      value: {
-        getItem: jest.fn(() => 'mock-token'),
-        clear: jest.fn(),
-      },
-      writable: true,
-    });
+    // Set a mock token in localStorage
+    window.localStorage.getItem = jest.fn(() => 'mock-token'); // Simulating the presence of a token
 
     render(
       <MemoryRouter>
@@ -124,6 +131,6 @@ describe('Home Component', () => {
       </MemoryRouter>
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Check if navigate was called
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Check if navigate was called to the dashboard
   });
 });
