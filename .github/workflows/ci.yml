@@ -3,15 +3,21 @@ name: CI Pipeline
 on:
   push:
     branches:
+      - haji1
       - sprint3
   pull_request:
     branches:
+      - haji1
       - sprint3
-      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      NODE_ENV: test
 
     steps:
       - name: Checkout code
@@ -25,7 +31,7 @@ jobs:
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: ./backend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -35,7 +41,5 @@ jobs:
         working-directory: ./backend
 
       - name: Run tests
-        env:
-          NODE_ENV: test
         run: npm test
         working-directory: ./backend
