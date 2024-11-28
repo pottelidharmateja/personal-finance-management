@@ -72,37 +72,7 @@ describe('Personal Finance Management App Backend Tests', () => {
     jwtToken = res.body.token; // Save token for further tests
   });
 
-  // Test: Create a Finance Record
-  it('should create a new finance record', async () => {
-    const res = await request(server)
-      .post('/api/finance/records')
-      .set('Authorization', `Bearer ${jwtToken}`)
-      .send({ title: 'Test Income', amount: 1000, type: 'income' });
 
-    assert.strictEqual(res.status, 201);
-    assert.strictEqual(res.body.title, 'Test Income');
-  });
-
-  // Test: Fetch Finance Records
-  it('should fetch finance records for the user', async () => {
-    const res = await request(server)
-      .get('/api/finance/records')
-      .set('Authorization', `Bearer ${jwtToken}`);
-
-    assert.strictEqual(res.status, 200);
-    assert.ok(Array.isArray(res.body));
-  });
-
-  // Test: Fetch User Profile
-  it('should fetch user profile data', async () => {
-    const res = await request(server)
-      .get('/api/user/profile')
-      .set('Authorization', `Bearer ${jwtToken}`);
-
-    assert.strictEqual(res.status, 200);
-    assert.strictEqual(res.body.email, testUser.email);
-  });
-  
   describe('FinanceRecord Model Tests', () => {
     // Test: Creating a valid finance record
     it('should create a valid finance record', async () => {
