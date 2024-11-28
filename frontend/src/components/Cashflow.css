@@ -1,0 +1,68 @@
+.component-container {
+    background-color: #1a1a2e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .component-container h2 {
+    margin-bottom: 20px;
+    color: #f39c12;
+    font-size: 24px;
+  }
+  
+  .month-selector {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .month-selector select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #2c2c3b;
+    color: #ffffff;
+    border: 1px solid #ccc;
+  }
+  
+  .expense-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .expense-inputs label {
+    color: #ffffff;
+    font-size: 16px;
+  }
+  
+  .expense-inputs input[type="number"] {
+    padding: 8px;
+    font-size: 16px;
+    background-color: #2c2c3b;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .save-button, .back-button {
+    background-color: #f39c12;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .chart-container {
+    margin-top: 20px;
+  }
+  
