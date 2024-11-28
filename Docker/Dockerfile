@@ -19,5 +19,5 @@ EXPOSE 5500
 # Set the environment to production
 ENV NODE_ENV=production
 
-# Command to run application
+# Command to run the application
 CMD ["node", "server.js"]
