@@ -23,8 +23,8 @@ const Login = ({ handleTransition }) => {
       // Store the token in local storage upon successful login
       localStorage.setItem('token', response.data.token);
 
-      // Redirect to the dashboard
-      navigate('/dashboard');
+      // Redirect to the categorizer page
+      navigate('/categorizer');
     } catch (error) {
       // Stop loading and display error message
       setLoading(false);
