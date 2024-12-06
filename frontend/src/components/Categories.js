@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import './Categories.css'; // Import the CSS file
+import './Categories.css'; 
 
 const CategoriesPieChart = () => {
   const navigate = useNavigate();
@@ -100,7 +100,7 @@ const CategoriesPieChart = () => {
           dataKey="value"
         >
           {data.map((entry, index) => (
-            <Cell key={cell-${index}} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Legend layout="horizontal" align="center" verticalAlign="bottom" />

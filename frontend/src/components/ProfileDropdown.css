@@ -1,44 +1,62 @@
-/* ProfileDropdown.css */
 .profile-dropdown {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
-  
-  .profile-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #4a90e2;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-  }
-  
-  .dropdown-menu p {
-    margin: 0;
-    font-weight: bold;
-  }
-  
-  .dropdown-menu button {
-    color: red;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-  
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.profile-icon {
+  width: 50px; /* Slightly increased size for better visibility */
+  height: 50px;
+  background-color: #4a90e2;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.profile-icon:hover {
+  background-color: #357ABD; /* Darker shade on hover */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px; /* Adjusted to fit the new icon size */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow for modern look */
+  padding: 15px; /* Increased padding for better spacing */
+  width: 200px; /* Fixed width for consistent layout */
+  z-index: 1000; /* Ensure it appears above other elements */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between items */
+}
+
+.dropdown-menu p {
+  margin: 0;
+  font-weight: bold;
+  color: #333; /* Darker text color for better contrast */
+  text-align: center; /* Center align for cleaner look */
+}
+
+.dropdown-menu button {
+  color: red;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease; /* Add hover effect */
+}
+
+.dropdown-menu button:hover {
+  background-color: rgba(255, 0, 0, 0.1); /* Subtle red hover effect */
+}

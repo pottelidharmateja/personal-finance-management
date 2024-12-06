@@ -7,13 +7,13 @@ const router = express.Router();
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, firstName } = req.body;
 
   // Debug: Log the incoming request body
   console.log('Received signup request:', req.body);
 
   // Validate input
-  if (!email || !password) {
+  if (!email || !password || !firstName) {
     return res.status(400).json({ error: 'Please fill in all the required fields.' });
   }
 
@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create and save the new user
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ email, password: hashedPassword, firstName });
     await newUser.save();
 
     // Respond with a success message
@@ -63,7 +63,6 @@ router.post('/login', async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ error: 'Invalid password. Try again.' });
     }
-    
 
     // Generate a JWT token
     const token = jwt.sign(
@@ -73,7 +72,15 @@ router.post('/login', async (req, res) => {
     );
 
     // Respond with the token and user info
-    return res.json({ message: 'Login successful', token, user: { id: user._id, email: user.email } });
+    return res.json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName, // Include firstName in the response
+      },
+    });
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ error: 'Login failed. Please try again later.' });

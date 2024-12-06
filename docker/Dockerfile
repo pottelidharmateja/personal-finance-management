@@ -1,4 +1,4 @@
-# Use an official Node.js runtime as a parent image, compatible with your dependencies
+# Use an official Node.js runtime as a parent image
 FROM node:16
 
 # Set the working directory inside the container
@@ -19,6 +19,5 @@ EXPOSE 80
 # Set the environment to production
 ENV NODE_ENV=production
 
-# Command to run the application
-CMD ["node", "app.js"]
-
+# Change the command to point to the correct location of your main file
+CMD ["node", "backend/server.js"]
