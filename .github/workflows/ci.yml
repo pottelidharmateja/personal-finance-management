@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - chandu1
-      - sprint3
+      - sprint4
   pull_request:
     branches:
       - chandu1
-      - sprint3
+      - sprint4
       - main
 
 jobs:
