@@ -8,6 +8,7 @@ import Investments from './Investments';
 import Categories from './Categories';
 import Settings from './Settings';
 import ProfileDropdown from './ProfileDropdown';
+import ExpenseCategorizer from './ExpenseCategorizer'; // Import the Categorizer component
 import './Dashboard.css';
 import './ProfileDropdown.css';
 
@@ -29,6 +30,7 @@ const Dashboard = () => {
           <Route path="/investments" element={<Investments />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/categorizer" element={<ExpenseCategorizer />} /> {/* Add Categorizer route */}
         </Routes>
       </div>
     </div>
