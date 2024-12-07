@@ -9,8 +9,7 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
 
-  // Debug: Log the incoming request body
-  console.log('Received signup request:', req.body);
+  console.log('Received signup request:', req.body); // Debug log
 
   // Validate input
   if (!email || !password) {
@@ -31,8 +30,19 @@ router.post('/signup', async (req, res) => {
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
-    // Respond with a success message
-    return res.status(201).json({ message: 'User created successfully!' });
+    // Generate a JWT token for the newly created user
+    const token = jwt.sign(
+      { userId: newUser._id, email: newUser.email },
+      process.env.JWT_SECRET || 'defaultSecretKey',
+      { expiresIn: '1h' }
+    );
+
+    // Respond with the token and user ID
+    return res.status(201).json({ 
+      message: 'User created successfully!', 
+      token, 
+      userId: newUser._id 
+    });
   } catch (error) {
     console.error('Signup error:', error);
     return res.status(500).json({ error: 'Signup failed. Please try again.' });
@@ -43,8 +53,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  // Debug: Log the incoming request body
-  console.log('Received login request:', req.body);
+  console.log('Received login request:', req.body); // Debug log
 
   // Validate input
   if (!email || !password) {
@@ -63,7 +72,6 @@ router.post('/login', async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ error: 'Invalid password. Try again.' });
     }
-    
 
     // Generate a JWT token
     const token = jwt.sign(
@@ -72,8 +80,12 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Respond with the token and user info
-    return res.json({ message: 'Login successful', token, user: { id: user._id, email: user.email } });
+    // Respond with the token and user ID
+    return res.json({ 
+      message: 'Login successful', 
+      token, 
+      user: { id: user._id, email: user.email } 
+    });
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ error: 'Login failed. Please try again later.' });

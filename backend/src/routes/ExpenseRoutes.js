@@ -33,7 +33,7 @@ async function callOpenAIApi(prompt) {
         console.warn(`Rate limit exceeded. Retrying in ${2000 * (attempt + 1)}ms...`);
         await new Promise((resolve) => setTimeout(resolve, 2000 * (attempt + 1))); // Exponential backoff
       } else {
-        throw new Error('Failed to fetch response from OpenAI: ' + error.message); // Re-throw error if not retryable
+        throw error; // Re-throw error if not retryable
       }
     }
     attempt++;
@@ -56,7 +56,7 @@ router.post('/addExpense', async (req, res) => {
     res.status(200).json({ message: 'Expense added successfully' });
   } catch (error) {
     console.error('Error adding expense:', error.message);
-    res.status(500).json({ error: 'Failed to add expense. Please try again.' });
+    res.status(500).json({ error: 'Failed to add expense' });
   }
 });
 
@@ -79,7 +79,7 @@ router.get('/monthlyExpenses/:userId/:month/:year', async (req, res) => {
     res.status(200).json(expenses);
   } catch (error) {
     console.error('Error fetching monthly expenses:', error.message);
-    res.status(500).json({ error: 'Failed to fetch expenses. Please try again later.' });
+    res.status(500).json({ error: 'Failed to fetch expenses' });
   }
 });
 
@@ -87,8 +87,8 @@ router.get('/monthlyExpenses/:userId/:month/:year', async (req, res) => {
 router.post('/categorize', async (req, res) => {
   const { description } = req.body;
 
-  if (!description || typeof description !== 'string') {
-    return res.status(400).json({ error: 'Description is required and must be a string.' });
+  if (!description) {
+    return res.status(400).json({ error: 'Description is required.' });
   }
 
   try {
@@ -96,11 +96,11 @@ router.post('/categorize', async (req, res) => {
     if (category) {
       res.status(200).json({ category });
     } else {
-      res.status(500).json({ error: 'Failed to parse category from AI response. Please refine the description.' });
+      res.status(500).json({ error: 'Failed to parse category from AI response.' });
     }
   } catch (error) {
     console.error('Error with AI Categorization:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to categorize transaction. Please try again later.' });
+    res.status(500).json({ error: 'Failed to categorize transaction.' });
   }
 });
 

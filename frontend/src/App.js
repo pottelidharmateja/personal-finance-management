@@ -11,6 +11,7 @@ import Categories from './components/Categories';
 import Settings from './components/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import ExpenseCategorizer from './components/ExpenseCategorizer';
+import SpendingPrediction from './components/SpendingPrediction'; // Import SpendingPrediction component
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         {/* Add ExpenseCategorizer Route */}
         <Route path="/categorizer" element={<ExpenseCategorizer />} />
+        {/* Add SpendingPrediction Route */}
+        <Route path="/spending-prediction" element={<ProtectedRoute><SpendingPrediction /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

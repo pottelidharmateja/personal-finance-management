@@ -20,11 +20,12 @@ const Login = ({ handleTransition }) => {
       // Send login request to the backend
       const response = await axios.post('http://localhost:5500/api/auth/login', { email, password });
 
-      // Store the token in local storage upon successful login
+      // Store the token and userId in local storage upon successful login
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userId', response.data.user.id); // Save userId here
 
       // Redirect to the categorizer page
-      navigate('/categorizer');
+      navigate('/dashboard');
     } catch (error) {
       // Stop loading and display error message
       setLoading(false);
