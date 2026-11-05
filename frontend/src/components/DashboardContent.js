@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
 import { jwtDecode } from 'jwt-decode';
+import ForecastCard from './ForecastCard';
 
 const DashboardContent = () => {
   const [totalBalance, setTotalBalance] = useState(0);
@@ -176,6 +177,7 @@ const DashboardContent = () => {
 
   return (
     <div className="dashboard">
+    <ForecastCard />
       <div className="dashboard-content">
         <header className="dashboard-header">
           <h1>Welcome Back!</h1>
