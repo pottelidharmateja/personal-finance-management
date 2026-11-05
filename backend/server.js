@@ -6,6 +6,7 @@ import authRoutes from './src/routes/auth.js';
 import financeRoutes from './src/routes/Finance.js';
 import userRoutes from './src/routes/user.js';
 import userInputRoutes from './src/routes/userinput.js';
+import forecastRoutes from './src/routes/forecast.js';
 import { MongoMemoryServer } from 'mongodb-memory-server'; // Import in-memory server
 
 // Load environment variables from .env file
@@ -57,6 +58,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/user-inputs', userInputRoutes);
+app.use('/api/forecast', forecastRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {
